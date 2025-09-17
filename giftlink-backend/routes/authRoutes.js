@@ -1,19 +1,17 @@
 //Step 1 - Task 2: Import necessary packages
 const express = require('express');
-const app = express();
 const bcryptjs = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-const { body, validationResult } = require('express-validator');
 const connectToDatabase = require('../models/db');
 const router = express.Router();
 const dotenv = require('dotenv');
 const pino = require('pino');  // Import Pino logger
+
 //Step 1 - Task 3: Create a Pino logger instance
 const logger = pino();  // Create a Pino logger instance
 
-dotenv.config();
-
 //Step 1 - Task 4: Create JWT secret
+dotenv.config();
 const JWT_SECRET = process.env.JWT_SECRET;
 
 router.post('/register', async (req, res) => {
@@ -47,6 +45,39 @@ router.post('/register', async (req, res) => {
     } catch (e) {
          return res.status(500).send('Internal server error');
     }
+
+router.post('/login', async (req, res) => {
+    try {
+        const db = await connectToDatabase();// Task 1: Connect to `giftsdb` in MongoDB through `connectToDatabase` in `db.js`.
+        const collection = db.collection("users");// Task 2: Access MongoDB `users` collection
+        const theUser = await collection.findOne({ email: req.body.email });// Task 3: Check for user credentials in database
+        if (theUser) {
+            let result = await bcryptjs.compare(req.body.password, theUser.password)
+            if(!result) {
+                logger.error('Passwords do not match');
+                return res.status(404).json({ error: 'Wrong pasword' });
+            }// Task 4: Task 4: Check if the password matches the encrypyted password and send appropriate message on mismatch
+            //continue other tasks
+            const userName = theUser.firstName;
+            const userEmail = theUser.email;// Task 5: Fetch user details from database
+            let payload = {
+                user: {
+                    id: theUser._id.toString(),
+                },
+            };
+         const authtoken = jwt.sign(user._id, JWT_SECRET)// Task 6: Create JWT authentication if passwords match with user._id as payload
+        logger.info('User logged in successfully');
+        return res.json({authtoken, userName, userEmail });
+        } else {
+        logger.error('User not found');
+        return res.status(404).json({ error: 'User not found' });
+        }// Task 7: Send appropriate message if user not found
+    } catch (e) {
+        logger.error(e);
+         return res.status(500).send('Internal server error');
+
+    }
+});
 });
 
 module.exports = router;
