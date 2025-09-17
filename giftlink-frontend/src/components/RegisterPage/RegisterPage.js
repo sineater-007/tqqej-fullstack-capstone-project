@@ -41,14 +41,13 @@ function RegisterPage() {
         if (json.authtoken) {
             sessionStorage.setItem('auth-token', json.authtoken);
             sessionStorage.setItem('name', firstName);
-            sessionStorage.setItem('email', json.email);
-            setIsLoggedIn(true);//insert code for setting logged in state
-            navigate('/app');//insert code for navigating to MainPAge
-        }// Task 2: Set user details
-        // Task 3: Set the state of user to logged in using the `useAppContext`.
-        // Task 4: Navigate to the MainPage after logging in.
-        // Task 5: Set an error message if the registration fails.
-        // Task 6: Display error message to enduser.
+            sessionStorage.setItem('email', json.email);//Task 2: Set user details
+            setIsLoggedIn(true);//Task 3: Set the state of user to logged in using the `useAppContext`.
+            navigate('/app');// Task 4: Navigate to the MainPage after logging in.
+        }
+        if (json.error) {
+            setShowerr(json.error);
+            }// Task 5: Set an error message if the registration fails.
     }
 
         return (
@@ -93,8 +92,7 @@ function RegisterPage() {
                                 value={email}
                                 onChange={(e) => setEmail(e.target.value)}
                             />
-
-                                <div className="text-danger">{showerr}</div>
+                                <div className="text-danger">{showerr}</div>// Task 6: Display error message to enduser.
                         </div>
 
                         <div className="mb-4">
