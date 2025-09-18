@@ -65,7 +65,7 @@ router.post('/login', async (req, res) => {
                     id: theUser._id.toString(),
                 },
             };
-         const authtoken = jwt.sign(user._id, JWT_SECRET)// Task 6: Create JWT authentication if passwords match with user._id as payload
+         const authtoken = jwt.sign(payloadd, JWT_SECRET)// Task 6: Create JWT authentication if passwords match with user._id as payload
         logger.info('User logged in successfully');
         return res.json({authtoken, userName, userEmail });
         } else {
