@@ -34,9 +34,6 @@ function RegisterPage() {
                 password: password
             }) //Task 8: Set body to send user details
         })
-        }catch (e) {
-            console.log("Error fetching details: " + e.message);
-        }
         const json = await response.json();// Task 1: Access data coming from fetch API
         if (json.authtoken) {
             sessionStorage.setItem('auth-token', json.authtoken);
@@ -48,7 +45,11 @@ function RegisterPage() {
         if (json.error) {
             setShowerr(json.error);
             }// Task 5: Set an error message if the registration fails.
+        }catch (e) {
+            console.log("Error fetching details: " + e.message);
+        }
     }
+        
 
         return (
             <div className="container mt-5">
