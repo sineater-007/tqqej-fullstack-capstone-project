@@ -85,7 +85,7 @@ function LoginPage() {
                         value={password}
                         onChange={(e) => {setPassword(e.target.value);setIncorrect("")}}
                     />
-                <span style={{color:'red',height:'.5cm',display:'block',fontStyle:'italic',fontSize:'12px'}}>{incorrect}</span>// Task 6: Display an error message to the user.
+                <span style={{color:'red',height:'.5cm',display:'block',fontStyle:'italic',fontSize:'12px'}}>{incorrect}</span> {/*Task 6: Display an error message to the user.*/}
             </div>
           {/* insert code here to create a button that performs the `handleLogin` function on click */}
             <button className="btn btn-primary w-100 mb-3" onClick={handleLogin}>Login</button>
